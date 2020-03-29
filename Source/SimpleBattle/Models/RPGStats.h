@@ -12,15 +12,13 @@ struct SIMPLEBATTLE_API FRPGStats
 {
     GENERATED_USTRUCT_BODY()
 	
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Values")
-		int32 MaxHealth;
-	UPROPERTY(BlueprintReadWrite, Category = "Values")
-		int32 CurrentHealth;
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Values")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Stats", meta=(DisplayName="Health"))
+		int32 HealthPoints;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Stats", meta = (DisplayName = "Attack"))
 		int32 AttackPoints;
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Values")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Stats", meta = (DisplayName = "Defense"))
 		int32 DefensePoints;
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Values")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Stats", meta = (DisplayName = "Speed"))
 		int32 SpeedPoints;
 
 };

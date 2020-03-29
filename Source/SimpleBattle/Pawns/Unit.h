@@ -27,6 +27,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RPG")
 	FRPGStats Stats = FRPGStats();
 
+	UPROPERTY(VisibleInstanceOnly,BlueprintReadWrite, Category="Stats", meta=(BlueprintSetter="SetCurrentHealth",BlueprintGetter="GetCurrentHealth"))
+	int32 CurrentHealth = 0;
+
 	UFUNCTION()
 	int32 ReduceCurrentHealth(int32 amount);
 
@@ -39,4 +42,16 @@ public:
 
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintCallable,BlueprintPure)
+	int32 GetCurrentHealth()const;
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentHealth(int amount);
+	// I am calculating how much health in percentage does the unit has
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	float GetHealthPercentage()const;
+
+	UFUNCTION(BlueprintNativeEvent, Category="RPG|Battle|Actions")
+	void ChooseAction(const class ABattle* BattleRef);
+
+	virtual void ChooseAction_Implementation(const class ABattle* BattleRef);
 };
