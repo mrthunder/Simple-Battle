@@ -3,3 +3,7 @@
 
 #include "AIUnit.h"
 
+bool AAIUnit::IsAnEnemy() const
+{
+	return true;
+}

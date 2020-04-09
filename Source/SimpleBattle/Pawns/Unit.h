@@ -8,17 +8,16 @@
 #include "Unit.generated.h"
 
 
-
+DECLARE_DYNAMIC_DELEGATE(FOnTurnEnd);
 
 UCLASS()
 class SIMPLEBATTLE_API AUnit : public APawn
 {
 	GENERATED_BODY()
-
+	
 public:
 	// Sets default values for this pawn's properties
 	AUnit();
-
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,7 +32,13 @@ protected:
 	UFUNCTION()
 	int32 ReduceCurrentHealth(int32 amount);
 
+	UPROPERTY()
+		FOnTurnEnd Callback;
+
 public:	
+
+	
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -50,8 +55,14 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	float GetHealthPercentage()const;
 
-	UFUNCTION(BlueprintNativeEvent, Category="RPG|Battle|Actions")
-	void ChooseAction(const class ABattle* BattleRef);
+	UFUNCTION()
+	FRPGStats GetStats()const;
 
-	virtual void ChooseAction_Implementation(const class ABattle* BattleRef);
+	UFUNCTION(BlueprintNativeEvent, Category="RPG|Battle|Actions")
+	void ChooseAction(const FOnTurnEnd& turnCallback);
+
+	virtual void ChooseAction_Implementation(const FOnTurnEnd& turnCallback);
+
+	virtual bool IsAnEnemy() const;
+
 };

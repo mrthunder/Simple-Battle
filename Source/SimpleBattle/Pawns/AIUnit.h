@@ -13,5 +13,9 @@ UCLASS(HideCategories = ("Camera", "Rendering", "Replication", "LOD", "Cooking",
 class SIMPLEBATTLE_API AAIUnit : public AUnit
 {
 	GENERATED_BODY()
+
+public:
+
+	virtual bool IsAnEnemy() const override;
 	
 };

@@ -15,4 +15,6 @@ class SIMPLEBATTLE_API APlayableUnit : public AUnit
 	GENERATED_BODY()
 public:
     APlayableUnit();
+
+	virtual void ChooseAction_Implementation(const FOnTurnEnd& turnCallback) override;
 };

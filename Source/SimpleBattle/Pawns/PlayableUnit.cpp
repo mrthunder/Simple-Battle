@@ -9,3 +9,8 @@ APlayableUnit::APlayableUnit()
 	AIControllerClass = nullptr;
 	AutoPossessAI = EAutoPossessAI::Disabled;
 }
+
+void APlayableUnit::ChooseAction_Implementation(const FOnTurnEnd& turnCallback)
+{
+	Callback = turnCallback;
+}

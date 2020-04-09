@@ -67,9 +67,19 @@ float AUnit::GetHealthPercentage() const
 		Stats.HealthPoints;
 }
 
+FRPGStats AUnit::GetStats() const
+{
+	return Stats;
+}
 
-void AUnit::ChooseAction_Implementation(const ABattle* BattleRef)
+
+void AUnit::ChooseAction_Implementation(const FOnTurnEnd& turnCallback)
 {
 	UE_LOG(LogTemp, Warning, TEXT("The function %s was not implemented"), *__FUNCTION__)
+}
+
+bool AUnit::IsAnEnemy() const
+{
+	return false;
 }
 
