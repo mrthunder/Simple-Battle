@@ -73,7 +73,7 @@ FRPGStats AUnit::GetStats() const
 }
 
 
-void AUnit::ChooseAction_Implementation(const FOnTurnEnd& turnCallback)
+void AUnit::ChooseAction_Implementation()
 {
 	UE_LOG(LogTemp, Warning, TEXT("The function %s was not implemented"), *__FUNCTION__)
 }
@@ -81,5 +81,11 @@ void AUnit::ChooseAction_Implementation(const FOnTurnEnd& turnCallback)
 bool AUnit::IsAnEnemy() const
 {
 	return false;
+}
+
+void AUnit::SetAction(FString actionString)
+{
+	SelectedAction = actionString;
+	FinishTurn.Broadcast();
 }
 

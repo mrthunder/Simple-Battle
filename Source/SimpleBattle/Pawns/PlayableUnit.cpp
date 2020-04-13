@@ -10,7 +10,7 @@ APlayableUnit::APlayableUnit()
 	AutoPossessAI = EAutoPossessAI::Disabled;
 }
 
-void APlayableUnit::ChooseAction_Implementation(const FOnTurnEnd& turnCallback)
+void APlayableUnit::ChooseAction_Implementation()
 {
-	Callback = turnCallback;
+	StartTurn.Broadcast(this);
 }

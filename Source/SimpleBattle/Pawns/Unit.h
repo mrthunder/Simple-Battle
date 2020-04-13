@@ -8,7 +8,8 @@
 #include "Unit.generated.h"
 
 
-DECLARE_DYNAMIC_DELEGATE(FOnTurnEnd);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTurnEnd);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTurnStart, AUnit*, unit);
 
 UCLASS()
 class SIMPLEBATTLE_API AUnit : public APawn
@@ -32,12 +33,16 @@ protected:
 	UFUNCTION()
 	int32 ReduceCurrentHealth(int32 amount);
 
-	UPROPERTY()
-		FOnTurnEnd Callback;
+	FString SelectedAction;
 
 public:	
+	// This will stored the move to next turn function from the battle
+	UPROPERTY(BlueprintCallable)
+		FOnTurnEnd FinishTurn;
 
-	
+	// This will tell who is controlling this function that they are ready
+	UPROPERTY(BlueprintCallable)
+		FOnTurnStart StartTurn;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -59,10 +64,12 @@ public:
 	FRPGStats GetStats()const;
 
 	UFUNCTION(BlueprintNativeEvent, Category="RPG|Battle|Actions")
-	void ChooseAction(const FOnTurnEnd& turnCallback);
+	void ChooseAction();
 
-	virtual void ChooseAction_Implementation(const FOnTurnEnd& turnCallback);
+	virtual void ChooseAction_Implementation();
 
 	virtual bool IsAnEnemy() const;
+
+	void SetAction(FString actionString);
 
 };
