@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "../Pawns/BattlePlayerPawn.h"
+#include "Engine/World.h"
 #include "Battle.h"
 
 // Sets default values
@@ -15,16 +17,26 @@ ABattle::ABattle()
 void ABattle::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	ABattlePlayerPawn* BPPptr = Cast<ABattlePlayerPawn>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+	if (IsValid(BPPptr))
+	{
+		Allies = BPPptr->PlayerUnits;
+	}
+
 	//I am adding all the allies and enemies to the all units array.
 	size_t maxLength = (Enemies.Num() > Allies.Num() ? Enemies.Num() : Allies.Num());
 	for (size_t i = 0; i < maxLength; i++)
 	{
 		if (i < Enemies.Num())
 		{
+			Enemies[i]->FinishTurn.AddDynamic(this, &ABattle::MoveToNextTurn);
 			AllUnits.Add(Enemies[i]);
 		}
 		if (i < Allies.Num())
 		{
+			Allies[i]->FinishTurn.AddDynamic(this, &ABattle::MoveToNextTurn);
 			AllUnits.Add(Allies[i]);
 		}
 	}
@@ -63,7 +75,12 @@ void ABattle::ActionSelection()
 	if (!IsUnitSelecting)
 	{
 		IsUnitSelecting = true;
-		//AllUnits[UnitTurnIndex]->ChooseAction(FOnTurnEnd::CreateRaw(this,&ABattle::MoveToNextTurn));
+		if (!AllUnits[UnitTurnIndex]->IsAnEnemy())
+		{
+			ChangeToPlayerUI();
+		}
+		AllUnits[UnitTurnIndex]->ChooseAction();
+		
 	}
 }
 
@@ -128,5 +145,15 @@ void ABattle::MoveToNextTurn()
 		}
 	}
 	
+}
+
+int32 ABattle::GetEnemyCount() const
+{
+	return Enemies.Num();
+}
+
+bool ABattle::IsEnemyAlive(int32 enemyIndex) const
+{
+	return Enemies[enemyIndex]->GetCurrentHealth() == 0;
 }
 

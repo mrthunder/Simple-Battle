@@ -64,7 +64,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void SetupBattleUI();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ChangeToPlayerUI();
+
 	UFUNCTION()
 	void MoveToNextTurn();
 
+	UFUNCTION()
+	int32 GetEnemyCount() const;
+
+	bool IsEnemyAlive(int32 enemyIndex) const;
 };
